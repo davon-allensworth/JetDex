@@ -71,11 +71,15 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Timber
-    implementation ("com.jakewharton.timber:timber:4.7.1")
+    implementation (libs.timber)
 
     // Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
-    kapt("androidx.hilt:hilt-compiler:1.0.0-beta01")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha01")
+    kapt(libs.hilt.android.compiler.v248)
+    implementation(libs.hilt.android.v248)
+    kapt(libs.androidx.hilt.compiler.v100beta01)
+    implementation(libs.androidx.hilt.navigation.compose.v100alpha01)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
