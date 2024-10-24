@@ -1,5 +1,6 @@
 package com.davonallensworth.jetdex.pokemondetail
 
+import android.media.MediaPlayer
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -74,6 +75,17 @@ fun PokemonDetailScreen(
     val pokemonInfo = produceState<Resource<Pokemon>>(initialValue = Resource.Loading()) {
         value = viewModel.getPokemonInfo(pokemonName)
     }.value
+
+    // Pokemon Cry
+    LaunchedEffect(pokemonInfo) {
+        if(pokemonInfo is Resource.Success) {
+            val soundUrl = pokemonInfo.data?.cries?.latest
+            soundUrl?.let {
+                playCry(it)
+            }
+        }
+    }
+    
     Box(modifier = Modifier
         .fillMaxSize()
         .background(dominantColor)
@@ -406,5 +418,20 @@ fun PokemonBaseStats(
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+private fun playCry(url: String) {
+    try {
+        val mediaPlayer = MediaPlayer().apply {
+            setDataSource(url)
+            prepare()
+            start()
+            setOnCompletionListener {
+                release()
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
 }
